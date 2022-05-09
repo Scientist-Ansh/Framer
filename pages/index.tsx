@@ -35,6 +35,11 @@ const LightText = styled.small`
 
 const ListItem = styled(motion.li)`
   text-decoration: none;
+  margin-bottom: 20px;
+
+  position: relative;
+  z-index: 1;
+  background: white;
 `;
 
 export default function Home() {
@@ -63,12 +68,9 @@ export default function Home() {
               key={id}
               whileHover={{
                 cursor: 'pointer',
-                position: 'relative',
-                zIndex: 1,
-                background: 'white',
-                scale: 1.2,
                 border: '1px solid blue',
                 borderRadius: '10px',
+                scale: 1.2,
                 padding: '5px 10px',
                 translateX: 0,
                 transition: {

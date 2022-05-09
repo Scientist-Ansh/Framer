@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { addPost } from '../lib/posts';
 
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const Form = styled.form`
   display: flex;
@@ -35,7 +36,7 @@ const TitleInput = styled.input`
 `;
 
 export default function AddPost() {
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log(e);
     const form = e.target;
@@ -44,8 +45,9 @@ export default function AddPost() {
     const date = new Date().toISOString();
     const id = Math.random().toString();
     const post = { id, date, title, content };
-    console.log(post);
-    addPost(post);
+    const result = await axios.post('/api/posts', post);
+    console.log(result, '######################3');
+
     form.reset();
     console.log(globalThis.posts);
   };
