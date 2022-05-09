@@ -1,51 +1,89 @@
 import Head from 'next/head';
 import Layout, { siteTitle } from '../components/layout';
-import utilStyles from '../styles/utils.module.css';
 import { getAllPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
-import { GetStaticProps } from 'next';
 
-export default function Home({
-  allPostsData,
-}: {
-  allPostsData: {
+import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
+
+const Section = styled.section`
+  font-size: 1.2rem;
+  line-height: 1.5;
+`;
+
+const Heading = styled.h2`
+font-size: 1.5rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+}
+`;
+
+const List = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const LightText = styled.small`
+  color: #666;
+`;
+
+const ListItem = styled(motion.li)`
+  text-decoration: none;
+`;
+
+export default function Home() {
+  const allPostsData: {
     date: string;
     title: string;
     id: string;
-  }[];
-}) {
+  }[] = getAllPostsData();
+
+  const router = useRouter();
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <section className={utilStyles.headingMd}></section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blogs</h2>
-        <ul className={utilStyles.list}>
+      <Section>
+        <Heading>Blogs</Heading>
+        <List>
           {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
+            <ListItem
+              onClick={() => router.push(`/posts/${id}`)}
+              key={id}
+              whileHover={{
+                cursor: 'pointer',
+                position: 'relative',
+                zIndex: 1,
+                background: 'white',
+                scale: 1.2,
+                border: '1px solid blue',
+                borderRadius: '10px',
+                padding: '5px 10px',
+                translateX: 0,
+                transition: {
+                  duration: 0.25,
+                },
+              }}
+            >
+              <span>{title}</span>
+
               <br />
-              <small className={utilStyles.lightText}>
+              <LightText>
                 <Date dateString={date} />
-              </small>
-            </li>
+              </LightText>
+            </ListItem>
           ))}
-        </ul>
-      </section>
+        </List>
+        <Link href="/addPost">
+          <a style={{ marginTop: '30px', display: 'inline-block' }}>
+            Add New Post
+          </a>
+        </Link>
+      </Section>
     </Layout>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = getAllPostsData();
-  return {
-    props: {
-      allPostsData,
-    },
-  };
-};

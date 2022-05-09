@@ -4,8 +4,20 @@ import Date from '../../components/date';
 
 import { getPostData } from '../../lib/posts';
 
-import utilStyles from '../../styles/utils.module.css';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
+
+const Heading = styled.h1`
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.05rem;
+  margin: 1rem 0;
+`;
+
+const LightText = styled.div`
+  color: #666;
+`;
 
 export default function Post() {
   const router = useRouter();
@@ -20,7 +32,7 @@ export default function Post() {
         <Head>
           <title>Not found</title>
         </Head>
-        <h1 className={utilStyles.headingXl}>Post not found</h1>
+        <Heading>Post not found</Heading>
       </Layout>
     );
   }
@@ -30,10 +42,10 @@ export default function Post() {
         <title>{postData.title}</title>
       </Head>
       <article>
-        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
-        <div className={utilStyles.lightText}>
+        <Heading>{postData.title}</Heading>
+        <LightText>
           <Date dateString={postData.date} />
-        </div>
+        </LightText>
         <pre>{postData.content}</pre>
       </article>
     </Layout>

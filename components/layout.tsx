@@ -6,8 +6,22 @@ import Link from 'next/link';
 
 import { motion } from 'framer-motion';
 
-const name = 'NextJs';
+const name = 'NextJs Blog';
 export const siteTitle = 'NextJs Blog';
+
+const variants = {
+  hidden: {
+    scale: 0.6,
+    opacity: 0,
+  },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+    },
+  },
+};
 
 export default function Layout({
   children,
@@ -47,7 +61,13 @@ export default function Layout({
                 width={144}
                 alt={name}
               />
-              <h1 className={utilStyles.heading2Xl}>{name}</h1>
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={variants}
+              >
+                <h1 className={utilStyles.heading2Xl}>{name}</h1>
+              </motion.div>
             </>
           ) : (
             <>
@@ -63,22 +83,22 @@ export default function Layout({
                   />
                 </a>
               </Link>
-              <h2 className={utilStyles.headingLg}>
-                <Link href="/">
-                  <a className={utilStyles.colorInherit}>{name}</a>
-                </Link>
-              </h2>
+
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={variants}
+              >
+                <h2 className={utilStyles.headingLg}>
+                  <Link href="/">
+                    <a className={utilStyles.colorInherit}> ← Home</a>
+                  </Link>
+                </h2>
+              </motion.div>
             </>
           )}
         </header>
         <main>{children}</main>
-        {!home && (
-          <div className={styles.backToHome}>
-            <Link href="/">
-              <a>← Back to home</a>
-            </Link>
-          </div>
-        )}
       </div>
     </motion.div>
   );
