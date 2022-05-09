@@ -4,6 +4,9 @@ import Date from '../../components/date';
 
 import { getPostData } from '../../lib/posts';
 
+import useSWR from 'swr';
+import { fetcher } from '../../lib/fetcher';
+
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -22,9 +25,14 @@ const LightText = styled.div`
 export default function Post() {
   const router = useRouter();
   const { id } = router.query;
-  let postData = null;
-  if (id) {
-    postData = getPostData(id as string);
+  const { data: postData, error } = useSWR<{
+    title: string;
+    date: string;
+    content: String;
+  }>(`/api/posts/${id}`, fetcher);
+
+  if (error) {
+    return <div>Something went Wrong...</div>;
   }
   if (!postData) {
     return (

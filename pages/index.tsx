@@ -3,9 +3,6 @@ import Layout, { siteTitle } from '../components/layout';
 import { getAllPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
-import { GetStaticProps } from 'next';
-import { SWRConfig } from 'swr';
-import { Post } from '../lib/dummyData';
 
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
@@ -41,10 +38,11 @@ const ListItem = styled(motion.li)`
 `;
 
 export default function Home() {
+  const router = useRouter();
+
   const { data: allPostsData, error } = useSWR<
     { id: string; date: string; title: String }[]
   >('/api/posts', fetcher);
-  const router = useRouter();
   if (error) {
     return <div>Something went Wrong...</div>;
   }
