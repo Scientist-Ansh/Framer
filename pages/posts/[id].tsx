@@ -2,8 +2,6 @@ import Layout from '../../components/layout';
 import Head from 'next/head';
 import Date from '../../components/date';
 
-import { getPostData } from '../../lib/posts';
-
 import useSWR from 'swr';
 import { fetcher } from '../../lib/fetcher';
 

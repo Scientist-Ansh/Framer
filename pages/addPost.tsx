@@ -2,7 +2,6 @@ import Layout from '../components/layout';
 import Head from 'next/head';
 
 import styled from 'styled-components';
-import { addPost } from '../lib/posts';
 
 import { motion } from 'framer-motion';
 import axios from 'axios';
@@ -46,8 +45,6 @@ export default function AddPost() {
     const id = Math.random().toString();
     const post = { id, date, title, content };
     const result = await axios.post('/api/posts', post);
-    console.log(result, '######################3');
-
     form.reset();
     console.log(globalThis.posts);
   };

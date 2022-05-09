@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Layout, { siteTitle } from '../components/layout';
-import { getAllPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
 
@@ -36,10 +35,13 @@ const LightText = styled.small`
 const ListItem = styled(motion.li)`
   text-decoration: none;
   margin-bottom: 20px;
-
   position: relative;
   z-index: 1;
   background: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border: 1px dashed black;
+  border-radius: 10px;
 `;
 
 export default function Home() {
@@ -67,11 +69,8 @@ export default function Home() {
               onClick={() => router.push(`/posts/${id}`)}
               key={id}
               whileHover={{
-                cursor: 'pointer',
                 border: '1px solid blue',
-                borderRadius: '10px',
                 scale: 1.2,
-                padding: '5px 10px',
                 translateX: 0,
                 transition: {
                   duration: 0.25,

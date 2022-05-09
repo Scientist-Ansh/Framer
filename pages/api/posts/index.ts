@@ -8,6 +8,5 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     addPost(req.body as Post);
   }
   const posts = getAllPostsData();
-  console.log(posts);
   res.status(200).json(posts);
 };
