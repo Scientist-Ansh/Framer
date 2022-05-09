@@ -3,10 +3,16 @@ import Layout, { siteTitle } from '../components/layout';
 import { getAllPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
+import { GetStaticProps } from 'next';
+import { SWRConfig } from 'swr';
+import { Post } from '../lib/dummyData';
 
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+
+import useSWR from 'swr';
+import { fetcher } from '../lib/fetcher';
 
 const Section = styled.section`
   font-size: 1.2rem;
@@ -35,13 +41,16 @@ const ListItem = styled(motion.li)`
 `;
 
 export default function Home() {
-  const allPostsData: {
-    date: string;
-    title: string;
-    id: string;
-  }[] = getAllPostsData();
-
+  const { data: allPostsData, error } = useSWR<
+    { id: string; date: string; title: String }[]
+  >('/api/posts', fetcher);
   const router = useRouter();
+  if (error) {
+    return <div>Something went Wrong...</div>;
+  }
+  if (!allPostsData) {
+    return <div>Loading...</div>;
+  }
   return (
     <Layout home>
       <Head>
@@ -87,3 +96,12 @@ export default function Home() {
     </Layout>
   );
 }
+
+// export const getStaticProps: GetStaticProps = async () => {
+//   const allPostsData = getAllPostsData();
+//   return {
+//     props: {
+//       allPostsData,
+//     },
+//   };
+// };
